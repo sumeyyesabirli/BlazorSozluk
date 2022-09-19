@@ -4,22 +4,41 @@ using System.Reflection;
 
 namespace BlazorSozluk.Infrastructure.Persistence.Context
 {
-    public class BlozorSozlukContext: DbContext
+    public class BlozorSozlukContext : DbContext
     {
         public const string DEFAULT_SCHEMA = "dbo";
 
+        public BlozorSozlukContext()
+        {
+
+        }
         public BlozorSozlukContext(DbContextOptions options) : base(options)
         {
         }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Entry> Entries { get; set; }
+
         public DbSet<EntryVote> EntryVotes { get; set; }
         public DbSet<EntryFavorite> EntryFavorites { get; set; }
+
         public DbSet<EntryComment> EntryComments { get; set; }
         public DbSet<EntryCommentVote> EntryCommentVotes { get; set; }
-        public DbSet<EntryCommentVote> EntryCommentFavorites { get; set; }
+        public DbSet<EntryCommentFavorite> EntryCommentFavorites { get; set; }
+
         public DbSet<EmailConfirmation> EmailConfirmations { get; set; }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var connStr = "Server=localhost;Password=123;Persist Security Info=True;User ID=postgres;Database=Blazorsozluk;Integrated Security=true;Pooling=true";
+                optionsBuilder.UseNpgsql(connStr, opt =>
+                {
+                    opt.EnableRetryOnFailure();
+                });
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,7 +55,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
-        public override Task<int> SaveChangesAsync (bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default )
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             OnBeforeSave();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -47,16 +66,18 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
             OnBeforeSave();
             return base.SaveChangesAsync(cancellationToken);
         }
-        public void  OnBeforeSave()
+        private void OnBeforeSave()
         {
-            var AddedEntites = ChangeTracker.Entries()
-                                       .Where(i => i.State == EntityState.Added)
-                                       .Select(i => (BaseEntity)i.Entity);
-            PrepareAddedEntities(AddedEntites);
+            var addedEntites = ChangeTracker.Entries()
+                                    .Where(i => i.State == EntityState.Added)
+                                    .Select(i => (BaseEntity)i.Entity);
+
+            PrepareAddedEntities(addedEntites);
         }
+
         private void PrepareAddedEntities(IEnumerable<BaseEntity> entities)
         {
-            foreach(var entity in entities)
+            foreach (var entity in entities)
             {
                 if (entity.CreateDate == DateTime.MinValue)
                     entity.CreateDate = DateTime.Now;

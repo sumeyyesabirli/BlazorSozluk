@@ -10,20 +10,17 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Infrastructure.Persistence.EntityConfigurations.EntryComment
 {
-    internal class EntryCommentVoteEntityConfiguration : BaseEntityConfiguration<EntryCommentVote>
+    public class EntryCommentVoteEntityConfiguration : BaseEntityConfiguration<EntryCommentVote>
     {
         public override void Configure(EntityTypeBuilder<EntryCommentVote> builder)
         {
             base.Configure(builder);
+
             builder.ToTable("entrycommentvote", BlozorSozlukContext.DEFAULT_SCHEMA);
 
             builder.HasOne(i => i.EntryComments)
                 .WithMany(i => i.EntryCommetVotes)
                 .HasForeignKey(i => i.EntryCommentId);
-
-           
         }
-    
-    
     }
 }

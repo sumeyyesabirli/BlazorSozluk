@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Infrastructure.Persistence.EntityConfigurations.Entry
 {
-    public class EntryEntityConfiguration:BaseEntityConfiguration<Api.Domain.Models.Entry>
+    public class EntryEntityConfiguration : BaseEntityConfiguration<Api.Domain.Models.Entry>
     {
         public override void Configure(EntityTypeBuilder<Api.Domain.Models.Entry> builder)
         {
@@ -17,9 +17,12 @@ namespace BlazorSozluk.Infrastructure.Persistence.EntityConfigurations.Entry
 
             builder.ToTable("entry", BlozorSozlukContext.DEFAULT_SCHEMA);
 
+
             builder.HasOne(i => i.CreatedBy)
                 .WithMany(i => i.Entries)
                 .HasForeignKey(i => i.CreatedById);
         }
     }
 }
+
+

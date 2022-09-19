@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Infrastructure.Persistence
 {
-    public class UserEntityConfigurationBaseEntityConfiguration:BaseEntityConfiguration<User>
+    public class UserEntityConfiguration : BaseEntityConfiguration<User>
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
@@ -18,7 +18,5 @@ namespace BlazorSozluk.Infrastructure.Persistence
 
             builder.ToTable("user", BlozorSozlukContext.DEFAULT_SCHEMA);
         }
-    
-     
     }
 }

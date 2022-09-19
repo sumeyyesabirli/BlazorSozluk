@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Infrastructure.Persistence
 {
-    public class EmailConfirmationEntityConfiguration:BaseEntityConfiguration<EmailConfirmation>
+    public class EmailConfirmationEntityConfiguration : BaseEntityConfiguration<EmailConfirmation>
     {
         public override void Configure(EntityTypeBuilder<EmailConfirmation> builder)
         {

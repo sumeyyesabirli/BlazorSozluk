@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Infrastructure.Persistence
 {
-    public class BaseEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
+    public abstract class BaseEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
     {
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
