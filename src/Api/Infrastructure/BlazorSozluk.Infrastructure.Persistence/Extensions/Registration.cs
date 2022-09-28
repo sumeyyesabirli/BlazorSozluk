@@ -1,4 +1,5 @@
 ﻿using BlazorSozluk.Api.Application.Interfaces.Repositories;
+using BlazorSozluk.Common.ViewModels.Queries;
 using BlazorSozluk.Infrastructure.Persistence.Context;
 using BlazorSozluk.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace BlazorSozluk.Infrastructure.Persistence.Extensions
 {

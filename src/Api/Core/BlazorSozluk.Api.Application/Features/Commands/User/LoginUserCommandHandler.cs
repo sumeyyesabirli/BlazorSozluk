@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿  using AutoMapper;
 using BlazorSozluk.Api.Application.Interfaces.Repositories;
 using BlazorSozluk.Common.Infrastructure;
 using BlazorSozluk.Common.Infrastructure.Extensions;
@@ -16,14 +16,15 @@ namespace BlazorSozluk.Api.Application.Features.Commands.User
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUserViewModel>
     {
         private readonly IUserRepository userRepository;
-        private readonly IMapper mapper;
         private readonly IConfiguration configuration;
+        private readonly IMapper mapper;
+
 
         public LoginUserCommandHandler(IUserRepository userRepository, IMapper mapper, IConfiguration configuration)
         {
-            this.userRepository = userRepository;
-            this.mapper = mapper;
+            this.userRepository = userRepository;            
             this.configuration = configuration;
+            this.mapper = mapper;
         }
 
         public async Task<LoginUserViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
@@ -31,25 +32,24 @@ namespace BlazorSozluk.Api.Application.Features.Commands.User
             var dbUser = await userRepository.GetSingleAsync(i => i.EmailAddress == request.EmailAddress);
 
             if (dbUser == null)
-                throw new DataBaseValidationExceptiıon("User not found!");
+                throw new DataBaseValidationException("User not found!");
 
             var pass = PasswordEncryptor.Encrpt(request.Password);
             if (dbUser.Password != pass)
-                throw new DataBaseValidationExceptiıon("Password is wrong!");
+                throw new DataBaseValidationException("Password is wrong!");
 
             if (!dbUser.EmailConfirmed)
-                throw new DataBaseValidationExceptiıon("Email address is not confirmed yet!");
+                throw new DataBaseValidationException("Email address is not confirmed yet!");
 
             var result = mapper.Map<LoginUserViewModel>(dbUser);
 
             var claims = new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
-                new Claim(ClaimTypes.Email, dbUser.EmailAddress),
-                new Claim(ClaimTypes.Name, dbUser.UserName),
-                new Claim(ClaimTypes.GivenName, dbUser.FirstName),
-                new Claim(ClaimTypes.Surname, dbUser.LastName)
-
+            new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
+            new Claim(ClaimTypes.Email, dbUser.EmailAddress),
+            new Claim(ClaimTypes.Name, dbUser.UserName),
+            new Claim(ClaimTypes.GivenName, dbUser.FirstName),
+            new Claim(ClaimTypes.Surname, dbUser.LastName)
             };
 
             result.Token = GenerateToken(claims);

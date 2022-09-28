@@ -17,7 +17,7 @@ namespace BlazorSozluk.Common.Infrastructure
             byte[] inputBytes = Encoding.ASCII.GetBytes(password);
             byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-            return Convert.ToBase64String(hashBytes);
+            return Convert.ToHexString(hashBytes);
    
         }
     }

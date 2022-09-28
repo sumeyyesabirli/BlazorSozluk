@@ -12,7 +12,6 @@ namespace BlazorSozluk.Api.WebApi.Controllers
 
         private readonly IMediator mediator;
         public UserController(IMediator mediator)
-
         {
             this.mediator = mediator;
         }

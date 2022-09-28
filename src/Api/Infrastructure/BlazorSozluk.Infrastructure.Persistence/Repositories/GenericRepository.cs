@@ -13,11 +13,11 @@ namespace BlazorSozluk.Infrastructure.Persistence.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly DbContext dbContext;
+        private readonly BlozorSozlukContext dbContext;
 
         protected DbSet<TEntity> entity => dbContext.Set<TEntity>();
 
-        public GenericRepository(DbContext dbContext)
+        public GenericRepository(BlozorSozlukContext dbContext)
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
