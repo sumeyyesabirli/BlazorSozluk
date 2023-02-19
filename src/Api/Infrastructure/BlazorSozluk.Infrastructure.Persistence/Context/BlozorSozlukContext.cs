@@ -32,7 +32,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connStr = "Server=localhost;Password=123;Persist Security Info=True;User ID=postgres;Database=Blazorsozluk;Integrated Security=true;Pooling=true";
+                var connStr = "Server = postgres;User ID=postgres; Password = 12345; Host = localhost; Port = 5432; Database = Blazorsozluk";
                 optionsBuilder.UseNpgsql(connStr, opt =>
                 {
                     opt.EnableRetryOnFailure();
@@ -42,7 +42,16 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresExtension("uuid-ossp").Entity<User>().Property(a => a.Id).HasDefaultValueSql("uuid_generate_v4()").ValueGeneratedOnAdd();
+            modelBuilder.HasPostgresExtension("uuid-ossp").Entity<Entry>().Property(a => a.Id).HasDefaultValueSql("uuid_generate_v4()").ValueGeneratedOnAdd();
+            modelBuilder.HasPostgresExtension("uuid-ossp").Entity<EntryVote>().Property(a => a.Id).HasDefaultValueSql("uuid_generate_v4()").ValueGeneratedOnAdd();
+            modelBuilder.HasPostgresExtension("uuid-ossp").Entity<EntryFavorite>().Property(a => a.Id).HasDefaultValueSql("uuid_generate_v4()").ValueGeneratedOnAdd();
+            modelBuilder.HasPostgresExtension("uuid-ossp").Entity<EntryComment>().Property(a => a.Id).HasDefaultValueSql("uuid_generate_v4()").ValueGeneratedOnAdd();
+            modelBuilder.HasPostgresExtension("uuid-ossp").Entity<EntryCommentVote>().Property(a => a.Id).HasDefaultValueSql("uuid_generate_v4()").ValueGeneratedOnAdd();
+            modelBuilder.HasPostgresExtension("uuid-ossp").Entity<EntryCommentFavorite>().Property(a => a.Id).HasDefaultValueSql("uuid_generate_v4()").ValueGeneratedOnAdd();
+            
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
         }
         public override int SaveChanges()
         {

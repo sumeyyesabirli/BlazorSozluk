@@ -12,7 +12,6 @@ namespace BlazorSozluk.Api.Domain.Models
         public Guid EntryId { get; set; }
         public Guid CreatedById { get; set; }
         public VoteType VoteType { get; set; }
-
         public virtual Entry Entry { get; set; }
         
     }
