@@ -1,10 +1,7 @@
 ﻿using BlazorSozluk.Common.ViewModels.RequestModels;
 using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BlazorSozluk.Api.Application.Features.Commands.User
 {

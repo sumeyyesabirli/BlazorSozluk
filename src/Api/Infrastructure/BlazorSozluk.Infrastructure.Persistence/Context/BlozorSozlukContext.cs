@@ -80,7 +80,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
             foreach (var entity in entities)
             {
                 if (entity.CreateDate == DateTime.MinValue)
-                    entity.CreateDate = DateTime.Now;
+                    entity.CreateDate = DateTime.UtcNow;
             }
         }
     }
