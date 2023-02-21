@@ -3,6 +3,7 @@ using BlazorSozluk.Api.Application.Features.Commands.EntryComment.DeleteVote;
 using BlazorSozluk.Common.ViewModels;
 using BlazorSozluk.Common.ViewModels.RequestModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace BlazorSozluk.Api.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class VoteController : BaseController
     {
 

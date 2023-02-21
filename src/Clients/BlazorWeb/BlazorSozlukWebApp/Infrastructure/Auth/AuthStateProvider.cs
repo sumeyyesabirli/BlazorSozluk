@@ -27,7 +27,8 @@ namespace BlazorSozlukWebApp.Infrastructure.Auth
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.ReadJwtToken(apiToken);
 
-            var cp = new ClaimsPrincipal(new ClaimsIdentity(securityToken.Claims, "jwtAuthType"));
+            var cp = new ClaimsPrincipal(new ClaimsIdentity(securityToken.Claims, "jwtAut" +
+                "  hType"));
 
             return new AuthenticationState(cp);
         }
@@ -37,8 +38,7 @@ namespace BlazorSozlukWebApp.Infrastructure.Auth
             var cp = new ClaimsPrincipal(new ClaimsIdentity(new[]
             {
             new Claim(ClaimTypes.Name, userName),
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-        }, "jwtAuthType"));
+            new Claim(ClaimTypes.NameIdentifier, userId.ToString())},"jwtAuthType"));
 
             var authState = Task.FromResult(new AuthenticationState(cp));
 
