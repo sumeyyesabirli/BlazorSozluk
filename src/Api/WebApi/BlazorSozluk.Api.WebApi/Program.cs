@@ -7,6 +7,7 @@ using FluentValidation.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services
     .AddControllers(opt => opt.Filters.Add<ValidateModelStateFilter>())
     .AddJsonOptions(opt =>
@@ -21,10 +22,7 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ConfigureAuth(builder.Configuration);
-
 builder.Services.AddApplicationRegistration();
-
 builder.Services.AddInfrastructureRegistration(builder.Configuration);
 builder.Services.ConfigureAuth(builder.Configuration);
 
@@ -36,17 +34,14 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
            .AllowAnyHeader();
 }));
 
-
 var app = builder.Build();
 
-
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-
 
 app.UseHttpsRedirection();
 
@@ -60,8 +55,3 @@ app.UseCors("MyPolicy");
 app.MapControllers();
 
 app.Run();
-
-
-
-
-// Configure the HTTP request pipeline.
