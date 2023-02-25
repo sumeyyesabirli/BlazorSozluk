@@ -44,8 +44,6 @@ public class Worker : BackgroundService
             })
             .StartConsuming(SozlukConstants.DeleteEntryFavQueueName);
 
-
-
         QueueFactory.CreateBasicConsumer()
             .EnsureExchange(SozlukConstants.FavExchangeName)
             .EnsureQueue(SozlukConstants.CreateEntryCommentFavQueueName, SozlukConstants.FavExchangeName)
